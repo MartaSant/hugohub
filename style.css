@@ -1,0 +1,993 @@
+/* RESET & BASE */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    scrollbar-width: none;          /* Firefox: nascondi scrollbar */
+    -ms-overflow-style: none;       /* IE e Edge vecchi */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+body {
+    font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(255, 201, 40, 0.3); /* feedback touch giallo */
+    touch-action: manipulation; /* migliora scroll e previene zoom accidentale */
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    touch-action: manipulation; /* migliora risposta touch su link */
+}
+
+button {
+    touch-action: manipulation; /* migliora risposta touch su bottoni */
+}
+
+/* PALETTE
+   Giallo principale: #FFC928
+   Giallo scuro:      #E2AD1F
+   Giallo chiaro:     #FFE27A
+   Nero profondo:     #111111
+*/
+
+/* =========================
+   SHELL DESKTOP (INDEX)
+   ========================= */
+
+.shell-body {
+    background-color: #000000;
+}
+
+.desktop-wrapper {
+    min-height: 100vh;
+    min-height: -webkit-fill-available; /* fallback per browser più vecchi */
+    min-height: 100dvh; /* fix per iOS Safari - dynamic viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.4rem;
+}
+
+.device-frame {
+    position: relative;
+    width: 360px;
+    max-width: 100%;
+    height: 780px;
+    max-height: calc(100vh - 2.8rem);
+    max-height: calc(100dvh - 2.8rem); /* fix per iOS Safari */
+    border-radius: 28px;
+    border: 3px solid #FFC928;
+    overflow: hidden;
+    background-color: #111111;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.95);
+}
+
+/* piccolo bordo laterale giallo chiaro */
+.device-frame::after {
+    content: "";
+    position: absolute;
+    top: 26px;
+    right: -12px;
+    width: 12px;
+    height: 60%;
+    border-radius: 10px;
+    background-color: #FFE27A;
+}
+
+.device-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 25px; /* leggermente più piccolo del device-frame per evitare che si veda lo sfondo nero */
+    display: block;
+    background-color: #111111;
+    overflow: hidden;
+}
+
+/* =========================
+   HOME PAGE (home.html)
+   ========================= */
+
+.home-body {
+    background-color: #111111;
+}
+
+.page {
+    min-height: 100vh;
+    min-height: -webkit-fill-available; /* fallback per browser più vecchi */
+    min-height: 100dvh; /* fix per iOS Safari - dynamic viewport height */
+    margin: 0 auto;
+    max-width: 480px;
+    background: radial-gradient(circle at top, #FFC928 0, #111111 55%, #050505 100%);
+    padding: 0 1.2rem 2.4rem;
+    padding-left: calc(1.2rem + env(safe-area-inset-left)); /* safe area laterale sinistra */
+    padding-right: calc(1.2rem + env(safe-area-inset-right)); /* safe area laterale destra */
+}
+
+/* HERO */
+
+.hero {
+    padding-top: 1.2rem;
+    padding-bottom: 1.4rem;
+}
+
+.hero-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.logo {
+    height: 64px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.social-links {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 0.7rem;
+}
+
+.social-links a {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(17, 17, 17, 0.4);
+    background-color: #FFC928;
+    color: #111111;
+    font-size: 0.95rem;
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.social-links a:hover {
+    background: #111111;
+    border-color: #FFC928;
+    color: #FFC928;
+    transform: translateY(-1px);
+}
+
+.hero-text {
+    margin-top: 1.6rem;
+    text-align: left;
+    color: #111111;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.hero-text.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.hero-welcome {
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.hero-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.2rem;
+}
+
+.hero-subtitle {
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    margin-top: 0.4rem;
+}
+
+/* CARDS */
+
+.content {
+    margin-top: 0.4rem;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.4rem;
+}
+
+.card {
+    position: relative;
+    border-radius: 0.9rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 194, 40, 0.5);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(17, 17, 17, 0.98));
+    padding: 0.55rem 0.8rem 0.75rem;
+    cursor: pointer;
+    transform: translateZ(0);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    touch-action: manipulation; /* migliora risposta touch */
+    min-height: 60px; /* touch target minimo per card */
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 201, 40, 0.1) 0,
+        rgba(255, 201, 40, 0.1) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+    opacity: 0.35;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.85);
+    border-color: #FFC928;
+    background: linear-gradient(135deg, #111111, #151515);
+}
+
+.card-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    gap: 0.75rem;
+}
+
+.card-text-block {
+    max-width: 80%;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
+    color: #FFC928;
+}
+
+.card-subtitle {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* ARROW effettata */
+
+.card-arrow {
+    width: 46px;
+    height: 46px;
+    border-radius: 0.9rem;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    color: #FFC928;
+    background: rgba(255, 201, 40, 0.05);
+}
+
+.card-arrow span {
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+/* alone "pulse" e freccia che scivola un po' a destra */
+.card:hover .card-arrow {
+    box-shadow: 0 0 0 3px rgba(255, 201, 40, 0.35);
+    transform: translateX(2px);
+}
+
+.card:hover .card-arrow span {
+    transform: translateX(4px);
+}
+
+/* Card tags */
+
+.card-tag {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+    color: #111111;
+}
+
+.card-tag--food {
+    background-color: #E2AD1F;
+}
+
+/* BUTTONS SECTION */
+
+.buttons-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.8rem;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+    border-radius: 0.9rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease, color 0.2s ease;
+    gap: 0.75rem;
+}
+
+.btn-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.btn-outline {
+    border: 1px solid rgba(255, 226, 122, 0.7);
+    background: rgba(0, 0, 0, 0.35);
+    color: #FFE27A;
+}
+
+/* bottoni pieni (whatsapp / chiamata) */
+.btn-filled {
+    border: 1px solid transparent;
+}
+
+.btn-whatsapp {
+    background-color: #25D366;
+    border-color: #25D366;
+    color: #0b2917;
+}
+
+.btn-call {
+    background-color: #FFC928;
+    border-color: #FFC928;
+    color: #111111;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline:hover {
+    background: #FFC928;
+    color: #111;
+    border-color: #FFC928;
+}
+
+.btn-whatsapp:hover {
+    filter: brightness(1.03);
+}
+
+.btn-call:hover {
+    filter: brightness(1.03);
+}
+
+/* freccia dei bottoni che si muove */
+.btn-arrow {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+}
+
+.btn:hover .btn-arrow {
+    transform: translateX(3px);
+}
+
+/* =========================
+   BLOCCO CONTATTI & ORARI
+   ========================= */
+
+.info-block.contact-block {
+    margin-top: 1.8rem;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 201, 40, 0.55);
+    padding: 0.9rem 0.95rem 1rem;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.75);
+}
+
+.contact-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #FFE27A;
+    margin-bottom: 0.5rem;
+}
+
+.contact-address {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.6rem;
+}
+
+.contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.contact-col {
+    font-size: 0.78rem;
+}
+
+.contact-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #FFE27A;
+    margin-bottom: 0.2rem;
+}
+
+.contact-value {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.contact-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 201, 40, 0.7);
+    color: #FFC928;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+
+.contact-map-link i {
+    font-size: 0.9rem;
+}
+
+.contact-map-link:hover {
+    background-color: #FFC928;
+    color: #111111;
+    border-color: #FFC928;
+    transform: translateY(-1px);
+}
+
+/* layout leggermente affiancato su schermi un po' più larghi */
+@media (min-width: 480px) {
+    .contact-grid {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .contact-col {
+        flex: 1;
+    }
+}
+
+/* FOOTER */
+
+.site-footer {
+    margin-top: 2.2rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid rgba(255, 201, 40, 0.55);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 4.5rem; /* spazio extra ~5 righe sotto il footer "Studio IDE" */
+}
+
+.footer-top {
+    margin-bottom: 0.8rem;
+}
+
+.footer-name {
+    font-weight: 600;
+    margin-bottom: 0.1rem;
+    color: #FFC928;
+}
+
+.footer-address,
+.footer-hours {
+    line-height: 1.4;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 201, 40, 0.35);
+    padding-top: 0.5rem;
+}
+
+.footer-designed {
+    margin-top: 0.3rem;
+    font-size: 0.75rem; /* aumentato da 0.7rem per migliore leggibilità mobile */
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-author-link {
+    color: #FFC928;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-author-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   BOTTOM FIXED BAR (CTA)
+   ========================= */
+
+.bottom-bar {
+    position: fixed;
+    left: 50%;
+    bottom: calc(0.85rem + 29px);
+    bottom: calc(0.85rem + 29px + env(safe-area-inset-bottom)); /* safe area per iPhone con notch */
+    transform: translateX(-50%);
+    width: 90vw; /* 90% della larghezza del display */
+    max-width: calc(100vw - 2 * env(safe-area-inset-left)); /* safe area laterale */
+    background: rgba(0, 0, 0, 0.92);
+    border-radius: 999px;
+    border: 1px solid rgba(255, 201, 40, 0.6);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+    padding: 0.4rem 0.6rem;
+    padding-left: calc(0.6rem + env(safe-area-inset-left)); /* safe area laterale sinistra */
+    padding-right: calc(0.6rem + env(safe-area-inset-right)); /* safe area laterale destra */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+}
+
+.bottom-bar-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; /* aumentato da 40px per touch target minimo 44x44px */
+    height: 44px; /* aumentato da 40px per touch target minimo 44x44px */
+    border-radius: 12px; /* piccoli quadrati con bordi tondi */
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease, border-color 0.18s ease;
+    padding: 0;
+    touch-action: manipulation; /* migliora risposta touch */
+}
+
+/* nasconde il testo, lasciando solo l'icona */
+.bottom-bar-btn span {
+    display: none;
+}
+
+.bottom-bar-btn i {
+    font-size: 1.1rem;
+}
+
+/* colori bottoni barra in basso */
+.bottom-bar-btn--wa {
+    background-color: #25D366;
+    color: #0b2917;
+    border-color: #25D366;
+}
+
+.bottom-bar-btn--ig {
+    background: #E1306C;
+    color: #ffffff;
+    border-color: #E1306C;
+}
+
+.bottom-bar-btn--call {
+    background-color: #FFC928;
+    color: #111111;
+    border-color: #FFC928;
+}
+
+.bottom-bar-btn--map {
+    background-color: transparent;
+    color: #FFE27A;
+    border-color: rgba(255, 226, 122, 0.6);
+}
+
+.bottom-bar-btn:hover {
+    transform: translateY(-1px);
+}
+
+.bottom-bar-btn--wa:hover,
+.bottom-bar-btn--ig:hover,
+.bottom-bar-btn--call:hover {
+    filter: brightness(1.03);
+}
+
+.bottom-bar-btn--map:hover {
+    background-color: #FFC928;
+    color: #111111;
+    border-color: #FFC928;
+}
+
+/* spazio extra in fondo alle pagine per non coprire i contenuti con la barra */
+.home-body .page {
+    padding-bottom: 4.6rem;
+}
+
+.menu-body .menu-page {
+    padding-bottom: 7rem; /* più spazio per le pagine menu per evitare che la bottom-bar copra il footer */
+}
+
+/* =========================
+   PAGINE MENU INTERNE
+   ========================= */
+
+.menu-body {
+    background-color: #111111;
+}
+
+.menu-page {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    min-height: -webkit-fill-available; /* fallback per browser più vecchi */
+    min-height: 100dvh; /* fix per iOS Safari - dynamic viewport height */
+    background: radial-gradient(circle at top, #FFC928 0, #111111 55%, #050505 100%);
+    padding: 1.3rem 1.2rem 2.2rem;
+    padding-left: calc(1.2rem + env(safe-area-inset-left)); /* safe area laterale sinistra */
+    padding-right: calc(1.2rem + env(safe-area-inset-right)); /* safe area laterale destra */
+}
+
+/* header della pagina menu */
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.3rem;
+}
+
+.menu-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.menu-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background-color: #111111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 201, 40, 0.7);
+}
+
+.menu-logo img {
+    width: 85%;
+    height: auto;
+    display: block;
+}
+
+.menu-title-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-eyebrow {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0, 0, 0, 0.65);
+    margin-top: 1.5rem;
+}
+
+.menu-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111111;
+}
+
+/* pulsante "chiudi" / "home" */
+
+.menu-close {
+    border-radius: 999px;
+    border: 1px solid rgba(17, 17, 17, 0.4);
+    background: #FFC928;
+    color: #111111;
+    font-size: 0.8rem;
+    padding: 0.45rem 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.menu-close span {
+    font-size: 0.9rem;
+}
+
+.menu-close:hover {
+    transform: translateY(-1px);
+    background: #111111;
+    color: #FFC928;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
+}
+
+/* intro */
+
+.menu-intro {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 1.1rem;
+}
+
+/* lista prodotti */
+
+.menu-section {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 201, 40, 0.55);
+    padding: 0.9rem 0.95rem 1rem;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.75);
+}
+
+.menu-section-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #FFE27A;
+    margin-bottom: 0.6rem;
+}
+
+.menu-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+/* singolo prodotto */
+
+.menu-item {
+    padding: 0.65rem 0.55rem;
+    border-radius: 0.7rem;
+    background: rgba(17, 17, 17, 0.96);
+    border: 1px solid rgba(255, 201, 40, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.menu-item-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.menu-item-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #FFC928;
+}
+
+.menu-item-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #FFE27A;
+    white-space: nowrap;
+}
+
+.menu-item-desc {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* pilloline di info (es. stile birra, gradazione, capacità) */
+
+.menu-item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+}
+
+.menu-pill {
+    font-size: 0.7rem; /* aumentato da 0.65rem per migliore leggibilità mobile */
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 201, 40, 0.45);
+    color: #FFE27A;
+}
+
+.menu-pill--accent {
+    background-color: #FFC928;
+    border-color: #FFC928;
+    color: #111111;
+}
+
+/* piccolo footer in fondo alla pagina menu */
+
+.menu-footer {
+    margin-top: 1.2rem;
+    margin-bottom: 2rem; /* spazio extra sotto il footer per evitare che venga coperto dalla bottom-bar */
+    font-size: 0.75rem; /* aumentato da 0.7rem per migliore leggibilità mobile */
+    text-align: center;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.menu-footer-designed {
+    margin-top: 0.4rem;
+}
+
+/* =========================
+   TRANSIZIONE PAGINE INTERNE
+   ========================= */
+
+.home-body,
+.menu-body {
+    animation: pageFade 0.28s ease-out;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVE: un po' più grande su tablet / grandi schermi */
+
+@media (min-width: 768px) {
+    .device-frame {
+        width: 390px;
+        height: 820px;
+    }
+
+    .hero {
+        padding-top: 1.6rem;
+    }
+
+    .hero-name {
+        font-size: 2.3rem;
+    }
+
+    .cards {
+        gap: 1.2rem;
+    }
+
+    .card {
+        padding: 0.7rem 1rem 0.9rem;
+    }
+}
+
+/* Pulsante HOME fisso in alto a destra nelle pagine interne */
+.menu-close {
+    position: fixed;
+    top: 0.9rem;
+    top: calc(0.9rem + env(safe-area-inset-top)); /* safe area per iPhone con notch */
+    right: 1.2rem;
+    right: calc(1.2rem + env(safe-area-inset-right)); /* safe area laterale destra */
+    border-radius: 999px;
+    border: 1px solid rgba(17, 17, 17, 0.4);
+    background: #FFC928;
+    color: #111111;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.9rem; /* aumentato padding per touch target più grande */
+    min-height: 44px; /* touch target minimo 44px */
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    z-index: 40; /* sopra al contenuto che scorre */
+    touch-action: manipulation; /* migliora risposta touch */
+}
+
+.menu-close span:first-child {
+    font-size: 0.9rem; /* la freccia ← leggermente più grande */
+}
+
+.menu-close:hover {
+    background: #111111;
+    color: #FFC928;
+    border-color: #FFC928;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+}
+
+/* bottone scroll-to-top nella home, sopra al bottone Mappa */
+.scroll-top {
+    position: fixed;
+    right: 1.4rem;
+    right: calc(1.4rem + env(safe-area-inset-right)); /* safe area laterale destra */
+    bottom: calc(4.6rem + 50px); /* sollevato per non coprire il bottone chiamami della bottom-bar */
+    bottom: calc(4.6rem + 50px + env(safe-area-inset-bottom)); /* safe area per iPhone con notch */
+    z-index: 60;
+    width: 44px; /* aumentato da 30px per touch target minimo 44x44px */
+    height: 44px; /* aumentato da 30px per touch target minimo 44x44px */
+    border-radius: 999px;
+    border: 1px solid rgba(255, 201, 40, 0.7);
+    background: #050505;
+    color: #FFC928;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem; /* aumentato da 0.8rem per migliore visibilità */
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    touch-action: manipulation; /* migliora risposta touch */
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.scroll-top:hover {
+    background: #FFC928;
+    color: #111111;
+    transform: translateY(-2px);
+}

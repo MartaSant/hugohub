@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Social · HUGÒ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Seguici sui social media: Instagram, Facebook, TikTok, WhatsApp e contatti di HUGÒ.">
+    
+    <!-- Meta tag iOS (PWA/Home Screen) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HUGÒ">
+    <link rel="apple-touch-icon" href="logomini.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFC928">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="logo.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://martasant.github.io/hugohub/social.html">
+    
+    <!-- Preconnect per CDN esterni (performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://martasant.github.io/hugohub/social.html">
+    <meta property="og:title" content="Social · HUGÒ">
+    <meta property="og:description" content="Seguici sui social media: Instagram, Facebook, TikTok, WhatsApp e contatti di HUGÒ.">
+    <meta property="og:image" content="https://martasant.github.io/hugohub/logo.png">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="HUGÒ · Find your happiness">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://martasant.github.io/hugohub/social.html">
+    <meta name="twitter:title" content="Social · HUGÒ">
+    <meta name="twitter:description" content="Seguici sui social media: Instagram, Facebook, TikTok, WhatsApp e contatti di HUGÒ.">
+    <meta name="twitter:image" content="https://martasant.github.io/hugohub/logo.png">
+    
+    <!-- Meta tag per disabilitare la cache del browser -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Preload font critico Montserrat -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .menu-eyebrow {
+            margin-top: 3rem;
+        }
+        
+        .menu-page {
+            overflow-x: hidden;
+        }
+        
+        .social-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            box-sizing: border-box;
+        }
+        
+        .social-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .social-card {
+            background: linear-gradient(135deg, rgba(255, 201, 40, 0.1) 0%, rgba(255, 201, 40, 0.05) 100%);
+            border: 2px solid rgba(255, 201, 40, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: visible;
+            min-height: 80px;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 201, 40, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .social-card:hover::before {
+            left: 100%;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 201, 40, 0.6);
+            box-shadow: 0 8px 24px rgba(255, 201, 40, 0.2);
+        }
+        
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-card:hover .social-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .social-icon--instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .social-icon--facebook {
+            background: #1877F2;
+        }
+        
+        .social-icon--tiktok {
+            background: #000000;
+        }
+        
+        .social-icon--whatsapp {
+            background: #25D366;
+        }
+        
+        .social-icon--phone {
+            background: #FFC928;
+            color: #111;
+        }
+        
+        .social-icon--map {
+            background: #EA4335;
+        }
+        
+        .social-content {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+        
+        .social-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: white;
+            word-wrap: break-word;
+            line-height: 1.3;
+        }
+        
+        .social-description {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .social-arrow {
+            font-size: 1.5rem;
+            color: rgba(255, 201, 40, 0.6);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 0.5rem;
+        }
+        
+        .social-card:hover .social-arrow {
+            color: #FFC928;
+            transform: translateX(5px);
+        }
+        
+        @media (min-width: 768px) {
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .social-card {
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+            
+            .social-title {
+                font-size: 1.3rem;
+            }
+            
+            .social-description {
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .social-container {
+                padding: 1rem 0.5rem;
+            }
+            
+            .social-grid {
+                gap: 0.875rem;
+            }
+            
+            .social-card {
+                padding: 1rem 0.75rem;
+                gap: 0.875rem;
+            }
+            
+            .social-icon {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                font-size: 1.4rem;
+            }
+            
+            .social-title {
+                font-size: 1.05rem;
+            }
+            
+            .social-description {
+                font-size: 0.8rem;
+            }
+            
+            .social-arrow {
+                font-size: 1.2rem;
+                margin-left: 0.25rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .social-container {
+                padding: 0.75rem 0.375rem;
+            }
+            
+            .social-grid {
+                gap: 0.75rem;
+            }
+            
+            .social-card {
+                padding: 0.875rem 0.625rem;
+                gap: 0.625rem;
+            }
+            
+            .social-icon {
+                width: 42px;
+                height: 42px;
+                min-width: 42px;
+                font-size: 1.2rem;
+            }
+            
+            .social-title {
+                font-size: 1rem;
+            }
+            
+            .social-description {
+                font-size: 0.75rem;
+            }
+            
+            .social-arrow {
+                font-size: 1.1rem;
+                margin-left: 0.2rem;
+            }
+        }
+    </style>
+</head>
+<body class="menu-body">
+    <div class="menu-page">
+        <header class="menu-header">
+            <div class="menu-header-left">
+                <div class="menu-logo">
+                    <img src="logomini.png" alt="HUGÒ">
+                </div>
+                <div class="menu-title-block">
+                    <span class="menu-eyebrow">HUGÒ · Find your happiness</span>
+                    <h1 class="menu-title">Seguici sui nostri social</h1>
+                </div>
+            </div>
+            <a href="home.html" class="menu-close">
+                <span>&larr;</span>
+                <span>Home</span>
+            </a>
+        </header>
+
+        <p class="menu-intro">
+            Resta connesso con HUGÒ! Seguici sui nostri canali social per aggiornamenti, eventi e contenuti esclusivi.
+        </p>
+
+        <div class="social-container">
+            <div class="social-grid">
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/hugo_hubriacheria/" class="social-card" target="_blank" rel="noopener">
+                    <div class="social-icon social-icon--instagram">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3 class="social-title">Instagram</h3>
+                        <p class="social-description">@hugo_hubriacheria</p>
+                    </div>
+                    <div class="social-arrow">&#8594;</div>
+                </a>
+
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/HugoHubriacheria" class="social-card" target="_blank" rel="noopener">
+                    <div class="social-icon social-icon--facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3 class="social-title">Facebook</h3>
+                        <p class="social-description">HugoHubriacheria</p>
+                    </div>
+                    <div class="social-arrow">&#8594;</div>
+                </a>
+
+                <!-- TikTok -->
+                <a href="https://vm.tiktok.com/ZM891PGwU/" class="social-card" target="_blank" rel="noopener">
+                    <div class="social-icon social-icon--tiktok">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3 class="social-title">TikTok</h3>
+                        <p class="social-description">Seguici su TikTok</p>
+                    </div>
+                    <div class="social-arrow">&#8594;</div>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="https://wa.me/393516320095" class="social-card" target="_blank" rel="noopener">
+                    <div class="social-icon social-icon--whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3 class="social-title">WhatsApp</h3>
+                        <p class="social-description">+39 351 632 0095</p>
+                    </div>
+                    <div class="social-arrow">&#8594;</div>
+                </a>
+
+                <!-- Telefono -->
+                <a href="tel:+393516320095" class="social-card">
+                    <div class="social-icon social-icon--phone">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3 class="social-title">Telefono</h3>
+                        <p class="social-description">+39 351 632 0095</p>
+                    </div>
+                    <div class="social-arrow">&#8594;</div>
+                </a>
+
+                <!-- Mappe -->
+                <a href="https://www.google.com/maps/search/?api=1&query=Via+Nazionale+delle+Puglie+2+80038+Pomigliano+d%27Arco+NA" class="social-card" target="_blank" rel="noopener">
+                    <div class="social-icon social-icon--map">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="social-content">
+                        <h3 class="social-title">Google Maps</h3>
+                        <p class="social-description">Via Nazionale delle Puglie, 2<br>Pomigliano d'Arco NA</p>
+                    </div>
+                    <div class="social-arrow">&#8594;</div>
+                </a>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-bottom">
+                <p>&copy; <span id="year"></span> HUGÒ. Tutti i diritti riservati.</p>
+                <p class="footer-designed">
+                    Designed by <a href="autore.html" class="footer-author-link">Studio IDE</a>
+                </p>
+                <p class="footer-designed" style="margin-top: 0.3rem;">
+                    <a href="policy.html" class="footer-author-link">Policy</a> • P.IVA IT09578771215
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // aggiorna anno nel footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Registrazione Service Worker con gestione aggiornamenti
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js', { updateViaCache: 'none' })
+                    .then(function(registration) {
+                        console.log('Service Worker registrato con successo:', registration.scope);
+                        
+                        // Controlla aggiornamenti ogni volta che la pagina viene caricata
+                        registration.update();
+                        
+                        // Ascolta messaggi dal service worker
+                        navigator.serviceWorker.addEventListener('message', function(event) {
+                            if (event.data && event.data.type === 'SW_UPDATED') {
+                                console.log('Nuovo Service Worker disponibile, ricarico la pagina...');
+                                window.location.reload();
+                            }
+                        });
+                        
+                        // Controlla se c'è un nuovo service worker in attesa
+                        registration.addEventListener('updatefound', function() {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', function() {
+                                    if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
+                                        console.log('Nuovo Service Worker attivato, ricarico la pagina...');
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log('Registrazione Service Worker fallita:', error);
+                    });
+                
+                // Controlla aggiornamenti ogni 60 secondi
+                setInterval(function() {
+                    navigator.serviceWorker.getRegistration().then(function(registration) {
+                        if (registration) {
+                            registration.update();
+                        }
+                    });
+                }, 60000);
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Listening Party · HUGÒ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Listening Party del HUGÒ: cocktail speciali e creazioni originali. Scopri i nostri drink.">
+    
+    <!-- Meta tag iOS (PWA/Home Screen) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HUGÒ">
+    <link rel="apple-touch-icon" href="logomini.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFC928">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="logo.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://martasant.github.io/hugohub/listening-party.html">
+    
+    <!-- Preconnect per CDN esterni (performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://martasant.github.io/hugohub/listening-party.html">
+    <meta property="og:title" content="Listening Party · HUGÒ">
+    <meta property="og:description" content="Listening Party del HUGÒ: cocktail speciali e creazioni originali. Scopri i nostri drink.">
+    <meta property="og:image" content="https://martasant.github.io/hugohub/logo.png">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="HUGÒ · Find your happiness">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://martasant.github.io/hugohub/listening-party.html">
+    <meta name="twitter:title" content="Listening Party · HUGÒ">
+    <meta name="twitter:description" content="Listening Party del HUGÒ: cocktail speciali e creazioni originali. Scopri i nostri drink.">
+    <meta name="twitter:image" content="https://martasant.github.io/hugohub/logo.png">
+    
+    <!-- Meta tag per disabilitare la cache del browser -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Preload font critico Montserrat -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" as="style">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .cocktails-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .cocktails-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #1a1a1a;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cocktails-slides {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .cocktail-slide {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cocktail-slide.active {
+            opacity: 1;
+        }
+
+        .cocktail-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .cocktail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            background: #000000;
+        }
+
+        .cocktail-content {
+            padding: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .cocktail-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #FFC928;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cocktail-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .cocktail-description-large {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 1rem;
+        }
+        .cocktail-description-quote {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #b0b0b0;
+            font-family: 'Montserrat', sans-serif;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .slider-button {
+            background: #FFC928;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a1a;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 201, 40, 0.3);
+        }
+
+        .slider-button:hover {
+            background: #ffb300;
+            transform: scale(1.1);
+        }
+
+        .slider-button:active {
+            transform: scale(0.95);
+        }
+
+        .slider-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slider-indicators {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #FFC928;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .cocktail-image {
+                height: 250px;
+            }
+
+            .cocktail-content {
+                padding: 1.5rem;
+            }
+
+            .cocktail-title {
+                font-size: 1.5rem;
+            }
+
+            .slider-button {
+                width: 44px;
+                height: 44px;
+            }
+        }
+
+        /* Touch and mouse drag support */
+        .cocktails-slider.touching {
+            transition: none;
+            cursor: grabbing;
+        }
+        
+        .cocktails-slider {
+            cursor: grab;
+        }
+        
+        .cocktails-slider:active {
+            cursor: grabbing;
+        }
+        
+        .menu-page {
+            padding-top: 3rem;
+        }
+    </style>
+</head>
+<body class="menu-body">
+    <div class="menu-page">
+        <header class="menu-header">
+            <div class="menu-header-left">
+                <div class="menu-logo">
+                    <img src="logomini.png" alt="HUGÒ">
+                </div>
+                <div class="menu-title-block">
+                    <span class="menu-eyebrow">HUGÒ · Find your happiness</span>
+                    <h1 class="menu-title">Listening Party</h1>
+                </div>
+            </div>
+            <a href="cocktails.html" class="menu-close">
+                <span>&larr;</span>
+                <span>Cocktails</span>
+            </a>
+        </header>
+
+        <div class="cocktails-container">
+            <div class="cocktails-slider" id="cocktailsSlider">
+                <div class="cocktails-slides" id="cocktailsSlides">
+                    <!-- Slide 1 -->
+                    <div class="cocktail-slide active">
+                        <div class="cocktail-image">
+                            <img src="listen1.png" alt="Makaveli">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Makaveli</h2>
+                            <p class="cocktail-description-large">
+                                AMARO NAZIONALE, BULLEIT BOURBON WHISKY, CORDIAL DI FOGLIE DI TABACCO.
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;I WON&apos;T DENY IT, I&apos;M A STRAIGHT RIDAH, YOU DON&apos;T WANNA FUCK WITH ME&quot;<br>
+                                ALL EYEZ ON ME - 2PAC
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen2.png" alt="Marshall">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Marshall</h2>
+                            <p class="cocktail-description-large">
+                                VODKA ALTAMURA, FRUTTOSIO ALLE FRAGOLE, CORDIAL AL POMPELMO ROSA
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Get buzzed, get drunk, get crunked, get fucked up&quot;<br>
+                                Shake That – Eminem ft. Nate Dogg
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen3.png" alt="laflame">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">laflame</h2>
+                            <p class="cocktail-description-large">
+                                TEQUILA ALTOS 100% AGAVE, ANANAS BLU GRIGLIATA, CORDIAL LIME &amp; CACTUS
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Seems like the life I need&apos;s a little distant&quot;<br>
+                                Astrothunder – Travis Scott
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen4.png" alt="Carters">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Carters</h2>
+                            <p class="cocktail-description-large">
+                                RUM RUTA MAYA COCO &amp; LIME, CORDIAL MANDORLE &amp; ANGURIA, ESTRATTO DI ANANAS + LIME
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;I&apos;ve been drinkin&apos; watermelon. I want your body right her&quot;<br>
+                                Drunk in Love RMX – Beyonc&eacute;, Jay-Z, Kanye West
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen5.png" alt="Nastradamus">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Nastradamus</h2>
+                            <p class="cocktail-description-large">
+                                TEQUILA 100% AGAVE AL COCCO, AGAVE SALATO + LIME, SODA AL POMPELMO ROSA
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Open they eyes to the lies, history&apos;s told foul&quot;<br>
+                                If I Ruled the World – Nas, Lauryn Hill
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen6.png" alt="biggie">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">biggie</h2>
+                            <p class="cocktail-description-large">
+                                MIX DI BITTER, LIQUORE ALLA PESCA BIANCA, CORDIAL DI PROSECCO, CIOCCOLATO AFFUMICATO
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Man, she split a drink on my cream wallows&quot;<br>
+                                Nasty Girl – The Notorious B.I.G.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 7 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen7.png" alt="Mustaaaaard">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Mustaaaaard</h2>
+                            <p class="cocktail-description-large">
+                                ALTOS TEQUILA 100% AGAVE, ITALICUS – ROSOLIO DI BERGAMOTTO, MOSTARDA AL MANGO + LIME
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Say Drake, I hear you like &apos;em young&quot;<br>
+                                Not Like Us – Kendrick Lamar
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 8 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen8.png" alt="Tributo">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Tributo</h2>
+                            <p class="cocktail-description-large">
+                                ALTOS TEQUILA 100% AGAVE, ITALICUS – ROSOLIO DI BERGAMOTTO, MOSTARDA AL MANGO + LIME
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Say Drake, I hear you like &apos;em young&quot;<br>
+                                Not Like Us – Kendrick Lamar
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 9 -->
+                    <div class="cocktail-slide">
+                        <div class="cocktail-image">
+                            <img src="listen9.png" alt="Jackson III">
+                        </div>
+                        <div class="cocktail-content">
+                            <h2 class="cocktail-title">Jackson III</h2>
+                            <p class="cocktail-description-large">
+                                MEZCAL PICAFLOR, CORDIAL DI PATATA BIANCA E AGAVE AL BBQ, LIME + BITTER AL PEPE NERO
+                            </p>
+                            <p class="cocktail-description-quote">
+                                &quot;Swing the ox when I rumble, show your ass what my gun do&quot;<br>
+                                Many Men (Wish Death) – 50 Cent
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-controls">
+                <button class="slider-button" id="prevButton" aria-label="Slide precedente">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="slider-indicators" id="indicators"></div>
+                <button class="slider-button" id="nextButton" aria-label="Slide successiva">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <p class="menu-footer">
+            Consulta la Lista degli Allergeni o chiedi al Personale di sala
+        </p>
+        <p class="menu-footer menu-footer-designed">
+            Designed by <a href="autore.html" class="footer-author-link">Studio IDE</a>
+        </p>
+        <p class="menu-footer menu-footer-designed" style="margin-top: 0.3rem;">
+            <a href="policy.html" class="footer-author-link">Policy</a> • P.IVA IT09578771215
+        </p>
+    </div>
+
+    <!-- Barra fissa in basso -->
+    <div class="bottom-bar">
+        <a href="https://wa.me/393516320095" class="bottom-bar-btn bottom-bar-btn--wa" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+        <a href="https://www.instagram.com/hugo_hubriacheria/" class="bottom-bar-btn bottom-bar-btn--ig" target="_blank" rel="noopener">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram</span>
+        </a>
+        <a href="tel:+393516320095" class="bottom-bar-btn bottom-bar-btn--call">
+            <i class="fas fa-phone"></i>
+            <span>Chiama</span>
+        </a>
+    </div>
+
+    <button class="scroll-top" aria-label="Torna all'inizio">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        // Slider functionality
+        (function() {
+            const slides = document.querySelectorAll('.cocktail-slide');
+            const slidesContainer = document.getElementById('cocktailsSlides');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const indicatorsContainer = document.getElementById('indicators');
+            const slider = document.getElementById('cocktailsSlider');
+            
+            let currentSlide = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isTransitioning = false;
+            let touchOffset = 0;
+            let isMouseDown = false;
+
+            // Create indicators
+            slides.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator' + (index === 0 ? ' active' : '');
+                indicator.addEventListener('click', () => goToSlide(index));
+                indicatorsContainer.appendChild(indicator);
+            });
+
+            function updateSlider() {
+                const offset = touchOffset || 0;
+                slidesContainer.style.transform = `translateX(calc(-${currentSlide * 100}% + ${offset}px))`;
+                
+                // Update active states
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSlide);
+                });
+                
+                // Update indicators
+                const indicators = indicatorsContainer.querySelectorAll('.indicator');
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentSlide);
+                });
+                
+                // Update buttons
+                prevButton.disabled = currentSlide === 0;
+                nextButton.disabled = currentSlide === slides.length - 1;
+            }
+
+            function goToSlide(index) {
+                if (isTransitioning || index === currentSlide) return;
+                
+                isTransitioning = true;
+                currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+                updateSlider();
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+
+            function nextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+
+            // Button events
+            nextButton.addEventListener('click', nextSlide);
+            prevButton.addEventListener('click', prevSlide);
+
+            // Touch events for swipe
+            slider.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchOffset = 0;
+                slider.classList.add('touching');
+            }, { passive: true });
+
+            slider.addEventListener('touchmove', (e) => {
+                touchEndX = e.touches[0].clientX;
+                touchOffset = touchEndX - touchStartX;
+                
+                // Prevent scrolling while swiping horizontally
+                if (Math.abs(touchOffset) > 10) {
+                    e.preventDefault();
+                }
+                
+                // Update slider position in real-time during swipe
+                updateSlider();
+            }, { passive: false });
+
+            slider.addEventListener('touchend', () => {
+                slider.classList.remove('touching');
+                const diff = touchStartX - touchEndX;
+                const threshold = 50; // Minimum swipe distance
+                
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        nextSlide();
+                    } else {
+                        // Swipe right - previous slide
+                        prevSlide();
+                    }
+                }
+                
+                // Reset offset
+                touchOffset = 0;
+                updateSlider();
+                
+                touchStartX = 0;
+                touchEndX = 0;
+            });
+
+            // Mouse events for drag/swipe
+            slider.addEventListener('mousedown', (e) => {
+                isMouseDown = true;
+                touchStartX = e.clientX;
+                touchOffset = 0;
+                slider.classList.add('touching');
+                e.preventDefault(); // Prevent text selection
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isMouseDown) return;
+                
+                touchEndX = e.clientX;
+                touchOffset = touchEndX - touchStartX;
+                
+                // Update slider position in real-time during drag
+                updateSlider();
+            });
+
+            const handleMouseEnd = () => {
+                if (!isMouseDown) return;
+                
+                isMouseDown = false;
+                slider.classList.remove('touching');
+                const diff = touchStartX - touchEndX;
+                const threshold = 50; // Minimum swipe distance
+                
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        nextSlide();
+                    } else {
+                        // Swipe right - previous slide
+                        prevSlide();
+                    }
+                }
+                
+                // Reset offset
+                touchOffset = 0;
+                updateSlider();
+                
+                touchStartX = 0;
+                touchEndX = 0;
+            };
+
+            slider.addEventListener('mouseup', handleMouseEnd);
+            slider.addEventListener('mouseleave', handleMouseEnd); // Handle mouse leaving the slider area
+
+            // Assicura che la pagina abbia il focus per la navigazione da tastiera
+            const ensureFocus = () => {
+                if (document.activeElement === document.body || document.activeElement === null) {
+                    document.body.focus();
+                }
+            };
+
+            // Focus automatico al caricamento
+            window.addEventListener('load', ensureFocus);
+            
+            // Focus automatico al click sulla pagina
+            document.addEventListener('click', ensureFocus);
+            
+            // Focus automatico quando la pagina diventa visibile
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    ensureFocus();
+                }
+            });
+
+            // Keyboard navigation - usa window per funzionare sempre
+            window.addEventListener('keydown', (e) => {
+                // Ignora se l'utente sta scrivendo in un campo di input
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                    return;
+                }
+                
+                if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                    e.preventDefault();
+                    ensureFocus(); // Assicura il focus prima di navigare
+                    prevSlide();
+                } else if (e.key === 'ArrowRight' || e.key === 'Right') {
+                    e.preventDefault();
+                    ensureFocus(); // Assicura il focus prima di navigare
+                    nextSlide();
+                }
+            }, true); // Usa capture phase per intercettare l'evento prima
+
+            // Prepara il body per ricevere il focus
+            document.body.setAttribute('tabindex', '-1');
+            document.body.style.outline = 'none'; // Rimuove l'outline quando ha il focus
+
+            // Initialize
+            updateSlider();
+        })();
+
+        // Scroll to top button
+        (function() {
+            const btn = document.querySelector('.scroll-top');
+            if (!btn) return;
+            
+            btn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            const scrollThreshold = 200;
+            
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > scrollThreshold) {
+                    btn.classList.add('visible');
+                } else {
+                    btn.classList.remove('visible');
+                }
+            });
+        })();
+
+        // Service Worker registration con gestione aggiornamenti
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js', { updateViaCache: 'none' })
+                    .then(function(registration) {
+                        console.log('Service Worker registrato con successo:', registration.scope);
+                        
+                        // Controlla aggiornamenti ogni volta che la pagina viene caricata
+                        registration.update();
+                        
+                        // Ascolta messaggi dal service worker
+                        navigator.serviceWorker.addEventListener('message', function(event) {
+                            if (event.data && event.data.type === 'SW_UPDATED') {
+                                console.log('Nuovo Service Worker disponibile, ricarico la pagina...');
+                                window.location.reload();
+                            }
+                        });
+                        
+                        // Controlla se c'è un nuovo service worker in attesa
+                        registration.addEventListener('updatefound', function() {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', function() {
+                                    if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
+                                        console.log('Nuovo Service Worker attivato, ricarico la pagina...');
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log('Registrazione Service Worker fallita:', error);
+                    });
+                
+                // Controlla aggiornamenti ogni 60 secondi
+                setInterval(function() {
+                    navigator.serviceWorker.getRegistration().then(function(registration) {
+                        if (registration) {
+                            registration.update();
+                        }
+                    });
+                }, 60000);
+            });
+        }
+    </script>
+</body>
+</html>
+

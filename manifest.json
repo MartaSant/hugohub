@@ -1,0 +1,27 @@
+{
+  "name": "HUGÒ · Find your happiness",
+  "short_name": "HUGÒ",
+  "description": "Hugò - Find your happiness. Via Nazionale delle Puglie, 2, 80038, Pomigliano d'Arco NA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#FFC928",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logomini.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
+

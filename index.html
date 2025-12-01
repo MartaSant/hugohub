@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>HUGÒ · Find your happiness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="HUGÒ · Find your happiness – Pub, taglieri, burger, birre e cocktail.">
+    
+    <!-- Meta tag iOS (PWA/Home Screen) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HUGÒ">
+    <link rel="apple-touch-icon" href="logo.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFC928">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="logo.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://martasant.github.io/hugohub/">
+    
+    <!-- Preconnect per CDN esterni (performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://martasant.github.io/hugohub/">
+    <meta property="og:title" content="HUGÒ · Find your happiness">
+    <meta property="og:description" content="Hugò - Find your happiness. Via Nazionale delle Puglie, 2, 80038, Pomigliano d'Arco NA">
+    <meta property="og:image" content="https://martasant.github.io/hugohub/logo.png">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="HUGÒ · Find your happiness">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://martasant.github.io/hugohub">
+    <meta name="twitter:title" content="HUGÒ · Find your happiness">
+    <meta name="twitter:description" content="Hugò - Find your happiness. Via Nazionale delle Puglie, 2, 80038, Pomigliano d'Arco NA">
+    <meta name="twitter:image" content="https://martasant.github.io/hugohub/logo.png">
+    
+    <!-- Meta tag per disabilitare la cache del browser -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="shell-body">
+    <div class="desktop-wrapper">
+        <div class="device-frame">
+            <iframe
+                src="home.html"
+                title="HUGÒ · Find your happiness"
+                class="device-iframe"
+            ></iframe>
+        </div>
+    </div>
+    <script>
+        // Registrazione Service Worker con gestione aggiornamenti
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js', { updateViaCache: 'none' })
+                    .then(function(registration) {
+                        console.log('Service Worker registrato con successo:', registration.scope);
+                        
+                        // Controlla aggiornamenti ogni volta che la pagina viene caricata
+                        registration.update();
+                        
+                        // Ascolta messaggi dal service worker
+                        navigator.serviceWorker.addEventListener('message', function(event) {
+                            if (event.data && event.data.type === 'SW_UPDATED') {
+                                console.log('Nuovo Service Worker disponibile, ricarico la pagina...');
+                                window.location.reload();
+                            }
+                        });
+                        
+                        // Controlla se c'è un nuovo service worker in attesa
+                        registration.addEventListener('updatefound', function() {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', function() {
+                                    if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
+                                        console.log('Nuovo Service Worker attivato, ricarico la pagina...');
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log('Registrazione Service Worker fallita:', error);
+                    });
+                
+                // Controlla aggiornamenti ogni 60 secondi
+                setInterval(function() {
+                    navigator.serviceWorker.getRegistration().then(function(registration) {
+                        if (registration) {
+                            registration.update();
+                        }
+                    });
+                }, 60000);
+            });
+        }
+    </script>
+</body>
+</html>
