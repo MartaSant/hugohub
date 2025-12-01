@@ -1,8 +1,8 @@
 // Service Worker per HUGÒ - Strategia Network First
 // Cache name con versione per facilitare aggiornamenti
 // INCREMENTA LA VERSIONE QUANDO AGGIORNI IL SITO per forzare l'aggiornamento della cache
-const CACHE_NAME = 'hugohub-v3';
-const RUNTIME_CACHE = 'hugohub-runtime-v3';
+const CACHE_NAME = 'hugohub-v4';
+const RUNTIME_CACHE = 'hugohub-runtime-v4';
 
 // File da mettere in cache all'installazione
 const PRECACHE_FILES = [
@@ -93,7 +93,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: STRATEGIA NETWORK FIRST
+// Fetch: STRATEGIA DIVERSIFICATA
 self.addEventListener('fetch', (event) => {
   // Ignora richieste non GET
   if (event.request.method !== 'GET') {
@@ -109,20 +109,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  const requestUrl = event.request.url;
+  const isHTML = requestUrl.endsWith('.html') || 
+                 requestUrl.endsWith('/') || 
+                 !requestUrl.includes('.') ||
+                 requestUrl.includes('?') && !requestUrl.match(/\.(png|jpg|jpeg|gif|svg|css|js|woff|woff2|ttf|ico)$/);
+  
+  const isImage = requestUrl.match(/\.(png|jpg|jpeg|gif|svg|webp|ico)$/i);
+  const isAsset = requestUrl.match(/\.(css|js|woff|woff2|ttf|eot)$/i);
+
   event.respondWith(
-    // Prova prima la rete (Network First)
-    fetch(event.request, { 
-      cache: 'no-store', // Forza sempre il controllo della rete per HTML
+    // Per file HTML: Network First con no-store per forzare aggiornamenti
+    // Per immagini e asset: Network First normale (possono essere cachati)
+    fetch(event.request, isHTML ? { 
+      cache: 'no-store',
       headers: {
         'Cache-Control': 'no-cache'
       }
-    })
+    } : {})
       .then((response) => {
         // Se la rete funziona, clona e salva in cache
-        const responseToCache = response.clone();
-        
-        // Salva solo risposte valide (status 200)
         if (response.status === 200) {
+          const responseToCache = response.clone();
           caches.open(RUNTIME_CACHE).then((cache) => {
             cache.put(event.request, responseToCache);
           });
