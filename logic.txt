@@ -1,0 +1,640 @@
+================================================================================
+PROJECT LOGIC BLUEPRINT
+================================================================================
+
+1. PROJECT OVERVIEW
+================================================================================
+
+Purpose:
+--------
+A Progressive Web App (PWA) for a local restaurant/bar venue that serves as a
+digital menu and contact information hub. The site allows customers to browse
+menu items, view contact details, and access social media links.
+
+User Type:
+----------
+- Primary: Customers/visitors of the venue
+- Use case: Mobile-first experience for viewing menu items, prices, and getting
+  contact information while at or planning to visit the venue
+
+Main User Goals:
+----------------
+1. Browse menu items organized by categories (food, cocktails, wine, beer)
+2. View detailed information about menu items (names, descriptions, prices)
+3. Access contact information (address, phone, opening hours)
+4. Navigate to social media profiles
+5. View allergen information
+6. Discover related venues in a network
+
+Key Features:
+-------------
+- Offline-capable PWA (works without internet after first visit)
+- Mobile-optimized design with desktop preview wrapper
+- Multi-page navigation structure
+- Fixed bottom navigation bar for quick actions (WhatsApp, Instagram, call)
+- Scroll-to-top functionality
+- Service Worker for caching and updates
+
+
+2. TECH STACK AND DEPENDENCIES
+================================================================================
+
+HTML Structure:
+--------------
+- Multiple separate HTML pages (not a single-page application)
+- Each page is a complete standalone document
+- Main entry point: index.html (desktop wrapper) loads home.html in an iframe
+- All other pages are direct links from home.html
+- Standard HTML5 semantic structure with <header>, <main>, <section>, <footer>
+- No templating system or build process - pure static HTML
+
+CSS Organization:
+----------------
+- Single CSS file: style.css (all styles in one place)
+- No CSS preprocessors (no SASS, LESS, etc.)
+- No CSS variables or custom properties
+- Organized by functional sections with clear comments
+- Media queries for responsive design (mobile-first approach)
+- Some inline <style> blocks in specific pages for page-specific overrides
+- External dependencies:
+  * Google Fonts (Montserrat) - loaded via CDN
+  * Font Awesome 6.5.0 - loaded via CDN for icons
+
+JavaScript:
+-----------
+- All JavaScript is inline within HTML pages (no separate .js files)
+- Vanilla JavaScript only (no frameworks like React, Vue, etc.)
+- No build process or transpilation
+- JavaScript is used for:
+  * Service Worker registration and management
+  * Scroll behavior (scroll-to-top button, hero text fade-out)
+  * Dynamic content updates (footer year)
+  * Event listeners for user interactions
+- All scripts are wrapped in IIFEs (Immediately Invoked Function Expressions)
+  or executed on page load
+
+External Dependencies:
+---------------------
+- Google Fonts API (fonts.googleapis.com, fonts.gstatic.com)
+- Font Awesome CDN (cdnjs.cloudflare.com)
+- No npm packages or node_modules
+- No package.json or dependency management
+
+
+3. FILE AND FOLDER STRUCTURE
+================================================================================
+
+Key HTML Files:
+--------------
+- index.html: Desktop wrapper page that displays mobile view in iframe
+- home.html: Main homepage with navigation cards to all sections
+- food.html: Menu page for food items
+- cocktails.html: Hub page linking to cocktail subcategories
+- winebeer.html: Hub page linking to wine and beer categories
+- [category].html: Individual menu pages (bianchi.html, rossi.html, birre.html,
+  listening-party.html, unconventional.html, goat.html, paloma.html, negroni.html,
+  bavarese.html, mocktails.html, gin.html, componigin.html, tonica.html)
+- social.html: Social media links page
+- network.html: Network of related venues
+- allergeni.html: Allergen information page
+- policy.html: Privacy policy page
+- autore.html: Credits/designer information page
+- 404.html: Error page
+
+CSS Files:
+----------
+- style.css: Single comprehensive stylesheet for entire site
+
+JavaScript Files:
+----------------
+- service-worker.js: Service Worker for PWA functionality and offline caching
+- No separate JavaScript files - all JS is inline in HTML
+
+Configuration Files:
+-------------------
+- manifest.json: PWA manifest configuration
+- robots.txt: SEO crawler instructions
+- sitemap.xml: XML sitemap for search engines
+
+Assets:
+-------
+- Images: logo.png, logomini.png, logo.ico (branding)
+- Images: Bavarese.png, Paloma.png (cocktail images)
+- Images: listen1.png through listen9.png (listening party images)
+- Images: network/ folder containing venue logos (decanter.png, flego.png, hugo.png)
+- qr.png: QR code image
+
+Folder Structure:
+----------------
+Root/
+├── index.html
+├── home.html
+├── style.css
+├── service-worker.js
+├── manifest.json
+├── robots.txt
+├── sitemap.xml
+├── [all menu pages].html
+├── [info pages].html
+├── [image files].png/.ico
+└── network/
+    └── [venue logo images].png
+
+
+4. LAYOUT AND NAVIGATION
+================================================================================
+
+Main Layout Structure:
+---------------------
+1. Desktop Wrapper (index.html):
+   - Black background
+   - Centered device frame (360x780px) with yellow border
+   - Iframe inside frame displaying home.html
+   - Simulates mobile device view on desktop
+
+2. Homepage (home.html):
+   - Header section (.hero):
+     * Logo image
+     * Venue name and tagline
+     * Fade-out effect on scroll
+   - Main content (.content):
+     * Navigation cards (.cards) - clickable cards linking to sections
+     * Contact info block (.contact-block) - address and hours
+   - Footer (.site-footer):
+     * Copyright with dynamic year
+     * Designer credits
+     * Policy link
+   - Fixed bottom bar (.bottom-bar):
+     * WhatsApp button
+     * Instagram button
+     * Call button
+
+3. Menu Pages (food.html, cocktails.html, etc.):
+   - Header (.menu-header):
+     * Small logo
+     * Page title with eyebrow text
+     * Fixed "Home" button in top-right
+   - Intro text (.menu-intro)
+   - Menu sections (.menu-section):
+     * Section title
+     * List of menu items (.menu-list > .menu-item)
+   - Footer with credits
+   - Fixed bottom bar (same as homepage)
+   - Scroll-to-top button
+
+Navigation Flow:
+---------------
+- Homepage → Category hub pages (cocktails.html, winebeer.html) → Individual menu pages
+- Homepage → Direct menu pages (food.html, allergeni.html, social.html, network.html)
+- All pages have "Home" button to return to homepage
+- All pages have fixed bottom bar for quick actions
+- Navigation is via standard <a> tags (no JavaScript routing)
+- No breadcrumbs or navigation menu - simple back-to-home pattern
+
+Scroll Behavior:
+---------------
+- Smooth scrolling enabled via CSS
+- Scroll-to-top button appears after 200px of scroll
+- Hero text fades out after 50px of scroll on homepage
+- Pages have extra bottom padding to prevent content from being hidden by fixed bottom bar
+
+
+5. CONTENT MODEL
+================================================================================
+
+Menu Content Structure:
+-----------------------
+Menu items are hard-coded directly in HTML (not stored in JavaScript objects or
+external data files). The structure follows this pattern:
+
+HTML Structure for Menu Items:
+```
+<section class="menu-section">
+  <h2 class="menu-section-title">SECTION NAME</h2>
+  <ul class="menu-list">
+    <li class="menu-item">
+      <div class="menu-item-header">
+        <span class="menu-item-name">Item Name</span>
+        <span class="menu-item-price">Price €</span>
+      </div>
+      <p class="menu-item-desc">Optional description</p>
+      <div class="menu-item-meta">
+        <span class="menu-pill">Optional metadata tag</span>
+      </div>
+    </li>
+  </ul>
+</section>
+```
+
+Content Fields:
+---------------
+- Section Title: Text string (e.g., "PATATINE", "PANINI", "VINI BIANCHI")
+- Item Name: Text string (product name)
+- Price: Formatted price string (e.g., "5,00 €")
+- Description: Optional paragraph text (ingredients, details)
+- Metadata Pills: Optional tags (e.g., alcohol percentage, style, capacity)
+
+Menu Organization:
+-----------------
+- Food items grouped by type (patatine, panini, bruschette, etc.)
+- Cocktails organized by collection/category (listening party, unconventional, etc.)
+- Wines separated by color (bianchi, rossi)
+- Beers in separate section
+- Each category can have multiple sections
+
+Contact Information Structure:
+-----------------------------
+Contact info is hard-coded in HTML within the homepage:
+
+Structure:
+```
+<section class="info-block contact-block">
+  <h2 class="contact-title">Section Title</h2>
+  <div class="contact-grid">
+    <div class="contact-col">
+      <p class="contact-label">Label</p>
+      <p class="contact-value">Value</p>
+      <a class="contact-map-link">Link to Maps</a>
+    </div>
+  </div>
+</section>
+```
+
+Contact Fields:
+---------------
+- Address: Full street address with postal code and city
+- Opening Hours: Day-by-day schedule with time ranges
+- Phone Number: Formatted phone number
+- Map Link: Google Maps search URL with encoded address
+
+Social Media Links:
+------------------
+Social links are represented as:
+- Bottom bar buttons (fixed position): WhatsApp, Instagram, Call
+- Social page cards: Each social platform has a card with icon, name, and link
+- Network page: Venue cards with social links, phone, and map links
+
+Network/Venue Structure:
+------------------------
+Network venues are hard-coded in HTML with this structure:
+```
+<div class="network-card">
+  <div class="network-card-header">
+    <div class="network-logo"><img src="..."></div>
+    <div class="network-card-content">
+      <h3 class="network-card-title">Venue Name</h3>
+    </div>
+  </div>
+  <div class="network-card-footer">
+    <a href="..." class="network-action-btn">Action buttons</a>
+  </div>
+</div>
+```
+
+Network Venue Fields:
+---------------------
+- Logo image (stored in network/ folder)
+- Venue name
+- Action buttons: Instagram link, Phone link, Maps link
+
+
+6. JAVASCRIPT LOGIC AND BEHAVIOR
+================================================================================
+
+Main Functions and Responsibilities:
+-----------------------------------
+
+1. Service Worker Registration:
+   - Function: Registers service worker for PWA functionality
+   - Location: Inline in all HTML pages
+   - Behavior:
+     * Checks if service worker is supported
+     * Registers service-worker.js on page load
+     * Listens for updates and reloads page when new version available
+     * Checks for updates every 60 seconds
+   - Events: 'load' (window), 'message' (service worker), 'updatefound' (registration)
+
+2. Scroll-to-Top Button:
+   - Function: Shows/hides button and scrolls to top on click
+   - Location: Inline in pages with scrollable content
+   - Behavior:
+     * Button hidden by default (opacity: 0, visibility: hidden)
+     * Appears after 200px of scroll
+     * Smooth scroll to top on click
+   - Events: 'scroll' (window), 'click' (button)
+   - DOM Manipulation: Adds/removes 'visible' class based on scroll position
+
+3. Hero Text Fade-Out:
+   - Function: Fades out hero text when user scrolls down
+   - Location: Inline in home.html and category hub pages
+   - Behavior:
+     * Hero text visible by default
+     * Adds 'fade-out' class after 50px of scroll
+     * Removes class when scrolled back to top
+   - Events: 'scroll' (window)
+   - DOM Manipulation: Toggles 'fade-out' class on .hero-text element
+
+4. Footer Year Update:
+   - Function: Dynamically updates copyright year
+   - Location: Inline in all pages with footer
+   - Behavior:
+     * Gets current year using Date object
+     * Updates text content of element with id="year"
+   - DOM Manipulation: Sets textContent of element
+
+Data Flow:
+----------
+- No complex data flow - all content is static HTML
+- JavaScript only manipulates DOM for UI enhancements (scroll behavior, visibility)
+- Service Worker handles caching independently
+- No data fetching from APIs or external sources
+- No state management - each page is independent
+
+Event Listeners:
+---------------
+- Window Events:
+  * 'load': Service Worker registration
+  * 'scroll': Scroll-to-top visibility, hero text fade-out
+- Element Events:
+  * 'click': Scroll-to-top button, navigation links (native browser behavior)
+- Service Worker Events:
+  * 'message': Service Worker update notifications
+  * 'updatefound': New service worker detected
+  * 'statechange': Service Worker state changes
+
+Dynamic Features:
+----------------
+- No filtering or search functionality
+- No category switching via JavaScript
+- No form validation (no forms present)
+- No dynamic content loading
+- All interactivity is via CSS hover effects and native link navigation
+- Service Worker provides offline functionality but doesn't change UI behavior
+
+
+7. UX INTERACTIONS AND VISUAL BEHAVIOR
+================================================================================
+
+Interactive Behaviors:
+---------------------
+
+1. Card Hover Effects:
+   - Navigation cards lift up (translateY(-3px)) on hover
+   - Border color changes to accent color
+   - Arrow icon slides right and gets glow effect
+   - Background gradient intensifies
+   - Smooth transitions (0.15s-0.2s ease)
+
+2. Button Hover Effects:
+   - Buttons lift slightly (translateY(-2px))
+   - Color brightness increases
+   - Arrow icons slide right
+   - Smooth transitions
+
+3. Scroll Interactions:
+   - Hero text fades out smoothly when scrolling down
+   - Scroll-to-top button fades in after threshold
+   - Smooth scroll behavior for scroll-to-top action
+
+4. Bottom Bar:
+   - Fixed position at bottom of viewport
+   - Always visible for quick access to actions
+   - Buttons have hover effects (lift, brightness change)
+   - Icons only (text hidden with display: none)
+
+5. Menu Item Display:
+   - Items in cards with subtle borders
+   - Hover effects on interactive elements
+   - Price displayed prominently in accent color
+   - Optional metadata shown as small pill badges
+
+6. Network/Social Cards:
+   - Cards have shimmer effect on hover (gradient animation)
+   - Cards lift up on hover
+   - Border color intensifies
+   - Icons rotate/scale on hover
+
+Responsive Behavior:
+--------------------
+- Mobile-first design (base styles for mobile)
+- Media queries for larger screens:
+  * @media (min-width: 768px): Tablet adjustments
+  * @media (max-width: 480px): Small mobile adjustments
+  * @media (max-width: 360px): Very small screens
+- Desktop wrapper shows mobile view in iframe (360x780px frame)
+- Safe area insets for devices with notches (iPhone X+)
+- Touch targets minimum 44x44px for accessibility
+- Viewport meta tag: width=device-width, initial-scale=1, viewport-fit=cover
+
+Visual Feedback:
+---------------
+- All interactive elements have hover states
+- Transitions are smooth (0.15s-0.3s ease)
+- Color changes provide clear feedback
+- Transform effects (translate, scale) for depth
+- Box shadows for elevation on hover
+- No loading states (all content is static)
+- No error states (no dynamic content that can fail)
+
+
+8. STYLING PATTERNS AND DESIGN RULES
+================================================================================
+
+Layout System:
+--------------
+- Flexbox: Used for most layouts (cards, headers, buttons, grids)
+- CSS Grid: Used for social grid and network grid on larger screens
+- No CSS Grid for main layout (flexbox preferred)
+- Positioning: Fixed for bottom bar and scroll-to-top button
+- Absolute positioning: Used for decorative elements and overlays
+
+Spacing:
+--------
+- Rem-based units throughout (no px for spacing)
+- Consistent gaps: 0.75rem, 1rem, 1.5rem, 2rem
+- Padding: 0.5rem to 2.4rem depending on element
+- Margin: Similar rem-based scale
+- No spacing utilities or design tokens
+
+Typography:
+-----------
+- Font Family: Montserrat (Google Fonts) with system font fallbacks
+- Font Weights: 400 (regular), 600 (semi-bold), 700 (bold)
+- Font Sizes: 0.65rem to 2rem (rem-based)
+- Text Transform: Uppercase for titles and labels
+- Letter Spacing: 0.08em to 0.14em for uppercase text
+- Line Height: 1.3 to 1.6 depending on context
+- No typography scale or heading system
+
+Color Usage:
+------------
+- Primary Accent: #FFC928 (yellow)
+- Dark Accent: #E2AD1F (darker yellow)
+- Light Accent: #FFE27A (light yellow)
+- Background: #000000 (black) and #111111 (dark gray)
+- Text: #FFFFFF (white) with opacity variations (0.7-0.9)
+- No CSS custom properties - colors hard-coded
+- Color palette used consistently across site
+
+Button Styles:
+--------------
+- Two main types:
+  1. Outline buttons: Transparent background, accent border
+  2. Filled buttons: Solid background in accent or brand colors
+- Border radius: 0.9rem (cards), 999px (pill buttons), 12px (small buttons)
+- Padding: 0.9rem vertical, 1rem horizontal (standard buttons)
+- Font: Uppercase, 0.9rem, semi-bold
+- Hover: Transform translateY, color/border changes
+
+Reusable CSS Classes:
+---------------------
+- .card: Navigation card component
+- .card-inner: Card content wrapper
+- .card-title: Card heading
+- .card-subtitle: Card description
+- .card-arrow: Arrow icon in cards
+- .btn: Base button class
+- .btn-outline: Outline button variant
+- .btn-filled: Filled button variant
+- .menu-section: Menu category container
+- .menu-item: Individual menu item
+- .menu-item-name: Product name
+- .menu-item-price: Product price
+- .menu-item-desc: Product description
+- .menu-pill: Metadata badge
+- .bottom-bar: Fixed bottom navigation
+- .bottom-bar-btn: Bottom bar button
+- .scroll-top: Scroll-to-top button
+- .hero: Header section
+- .hero-text: Hero text content
+- .contact-block: Contact information section
+
+Design Patterns:
+----------------
+- Gradient backgrounds: Radial gradient from accent color to black
+- Border accents: 1-2px borders with accent color at various opacities
+- Box shadows: Used for depth (0 16px 30px rgba(0,0,0,0.85))
+- Border radius: Consistent rounded corners (0.9rem, 1rem, 999px)
+- Overlay patterns: Diagonal stripe pattern on cards (::before pseudo-element)
+- Backdrop blur: Used on bottom bar (backdrop-filter: blur(10px))
+- Transitions: Consistent timing (0.15s-0.3s ease)
+
+
+9. REUSE GUIDELINES
+================================================================================
+
+Parts to Keep As-Is (Structure & Architecture):
+------------------------------------------------
+1. HTML page structure and semantic markup patterns
+2. CSS class naming conventions and component structure
+3. Layout system (flexbox patterns, grid usage)
+4. JavaScript patterns (IIFEs, event listener setup)
+5. Service Worker architecture and caching strategy
+6. PWA manifest structure
+7. Navigation flow and page organization
+8. Responsive breakpoints and media query structure
+9. Component patterns (cards, buttons, menu items)
+10. Fixed bottom bar pattern
+11. Scroll behavior patterns
+
+Parts to Replace (Content & Branding):
+--------------------------------------
+1. All text content:
+   - Venue name and tagline
+   - Menu item names, descriptions, prices
+   - Contact information (address, phone, hours)
+   - Social media links and handles
+   - Footer text and credits
+
+2. Images:
+   - Logo files (logo.png, logomini.png, logo.ico)
+   - Cocktail/product images
+   - Network venue logos
+   - QR code image
+
+3. Branding:
+   - Color palette (currently yellow/black - replace with venue colors)
+   - Font choice (currently Montserrat - can be changed)
+   - Theme color in manifest.json
+
+4. URLs and Links:
+   - Canonical URLs in meta tags
+   - Social media profile URLs
+   - Google Maps links
+   - WhatsApp links
+   - Service Worker scope (if domain changes)
+
+5. Business Information:
+   - P.IVA (tax ID) in footer
+   - Structured data (Schema.org) with venue details
+   - Sitemap URLs
+
+How to Add New Content:
+-----------------------
+
+Adding New Menu Items:
+1. Locate the appropriate menu page HTML file
+2. Find or create a <section class="menu-section">
+3. Add a new <li class="menu-item"> within <ul class="menu-list">
+4. Structure:
+   - menu-item-header with name and price
+   - Optional menu-item-desc for description
+   - Optional menu-item-meta with menu-pill badges
+5. Follow existing formatting (price format, text styling)
+
+Adding New Menu Categories:
+1. Create new HTML file following naming convention (lowercase, hyphens)
+2. Copy structure from existing menu page (food.html is a good template)
+3. Update home.html to add new navigation card
+4. Update service-worker.js PRECACHE_FILES array
+5. Update sitemap.xml with new URL
+
+Adding New Network Venues:
+1. Add venue logo image to network/ folder
+2. In network.html, duplicate a network-card div
+3. Update:
+   - Logo image src
+   - Venue name in network-card-title
+   - Social links in network-action-btn elements
+   - Phone number in tel: link
+   - Maps link with encoded address
+
+Updating Contact Information:
+1. Edit home.html
+2. Find .contact-block section
+3. Update address, phone, hours in contact-value elements
+4. Update Google Maps link with new address
+5. Update structured data (Schema.org JSON-LD) at bottom of home.html
+6. Update bottom bar links if phone/social changes
+
+Changing Brand Colors:
+1. Edit style.css
+2. Find and replace color values:
+   - #FFC928 (primary yellow)
+   - #E2AD1F (dark yellow)
+   - #FFE27A (light yellow)
+3. Update manifest.json theme-color
+4. Update meta theme-color in HTML head sections
+
+Maintaining Service Worker:
+1. When adding new pages, update PRECACHE_FILES in service-worker.js
+2. Increment CACHE_NAME version when making significant changes
+3. Service Worker uses Network First strategy - HTML files always check network first
+
+Best Practices for Reuse:
+-------------------------
+1. Keep the component-based CSS class structure
+2. Maintain the mobile-first responsive approach
+3. Preserve the PWA functionality (Service Worker, manifest)
+4. Keep the fixed bottom bar pattern for quick actions
+5. Maintain semantic HTML structure
+6. Follow the existing navigation pattern (homepage → category → detail)
+7. Keep scroll behavior enhancements
+8. Preserve accessibility features (touch targets, ARIA labels)
+9. Maintain the desktop wrapper pattern if needed, or remove if not
+10. Keep the consistent spacing and typography scale (even if changing values)
+
+================================================================================
+END OF BLUEPRINT
+================================================================================
+

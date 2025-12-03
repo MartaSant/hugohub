@@ -1,0 +1,283 @@
+================================================================================
+STRUTTURA SITO WEB HUGÒ - Find your happiness
+================================================================================
+
+TIPO DI SITO
+------------
+- Progressive Web App (PWA) mobile-first
+- Sito statico HTML/CSS/JavaScript vanilla
+- Design responsive con frame desktop che mostra iframe mobile
+- Target: Pub/Ristorante con menu digitale
+
+TECNOLOGIE UTILIZZATE
+---------------------
+- HTML5
+- CSS3 (file: style.css)
+- JavaScript vanilla (inline nelle pagine)
+- Service Worker (service-worker.js) per cache offline
+- PWA Manifest (manifest.json)
+- Font: Google Fonts - Montserrat (400, 600, 700)
+- Icone: Font Awesome 6.5.0 (CDN)
+- SEO: robots.txt, sitemap.xml, meta tags Open Graph/Twitter
+
+STRUTTURA FILE E CARTELLE
+-------------------------
+
+ROOT DIRECTORY
+├── index.html                    # Pagina principale (shell desktop con iframe)
+├── home.html                     # Homepage effettiva (caricata nell'iframe)
+├── style.css                     # Foglio di stile principale
+├── manifest.json                 # PWA manifest
+├── service-worker.js             # Service Worker per cache offline
+├── robots.txt                    # File per crawler SEO
+├── sitemap.xml                   # Sitemap XML per SEO
+├── 404.html                      # Pagina errore 404
+│
+├── LOGO E IMMAGINI
+├── logo.png                      # Logo principale (512x512)
+├── logomini.png                  # Logo piccolo (192x192)
+├── logo.ico                      # Favicon
+├── qr.png                        # QR code (presumibilmente)
+├── Bavarese.png                  # Immagine cocktail Bavarese
+├── Paloma.png                    # Immagine cocktail Paloma
+├── listen1.png - listen9.png     # Immagini per listening party (9 immagini)
+│
+├── PAGINE MENU FOOD
+├── food.html                     # Menu principale food
+│
+├── PAGINE MENU COCKTAILS
+├── cocktails.html                # Menu cocktails principale
+├── listening-party.html          # Cocktail Listening Party
+├── unconventional.html           # Cocktail Unconventional
+├── goat.html                     # Cocktail Goat
+├── paloma.html                   # Cocktail Paloma
+├── negroni.html                  # Cocktail Negroni
+├── bavarese.html                 # Cocktail Bavarese
+├── mocktails.html                # Mocktails (cocktail analcolici)
+├── gin.html                      # Gin
+├── componigin.html               # Componi Gin
+├── tonica.html                   # Tonica
+│
+├── PAGINE MENU BEVANDE
+├── winebeer.html                 # Menu vini e birre principale
+├── bianchi.html                  # Vini bianchi
+├── rossi.html                    # Vini rossi
+├── birre.html                    # Birre
+│
+├── PAGINE INFORMATIVE
+├── allergeni.html                # Lista allergeni alimentari
+├── social.html                   # Link social media
+├── network.html                  # Network di locali
+├── policy.html                   # Privacy policy
+├── autore.html                   # Info autore/designer
+│
+├── CARTELLA NETWORK
+└── network/
+    ├── decanter.png              # Logo Decanter
+    ├── flego.png                 # Logo Flego
+    └── hugo.png                  # Logo Hugo
+│
+└── FILE TECNICI
+    └── google6aa057142d6d44a6.html  # File verifica Google Search Console
+
+STRUTTURA PAGINE HTML
+---------------------
+
+TUTTE LE PAGINE HANNO:
+- Meta tags standard (charset, viewport, description)
+- Meta tags PWA (apple-mobile-web-app-*)
+- Meta tags Open Graph e Twitter Card
+- Link a manifest.json
+- Link a style.css
+- Link a Google Fonts (Montserrat)
+- Link a Font Awesome (CDN)
+- Meta tags per disabilitare cache
+- Service Worker registration script
+
+PAGINA INDEX.HTML (Shell Desktop)
+---------------------------------
+- Wrapper desktop con frame mobile (360x780px)
+- Iframe che carica home.html
+- Service Worker registration
+- Design: sfondo nero, frame giallo (#FFC928) con bordo arrotondato
+
+PAGINA HOME.HTML (Homepage)
+---------------------------
+- Header con logo e hero text
+- Sezione cards con link a:
+  * Food
+  * Cocktails
+  * Wine 'n Beer
+  * Allergeni
+  * Social
+  * Network
+- Blocco contatti e orari
+- Footer con copyright e link autore/policy
+- Bottom bar fissa con bottoni:
+  * WhatsApp
+  * Instagram
+  * Chiamata
+- Bottone scroll-to-top
+- Structured Data (Schema.org) per Restaurant
+- Script per:
+  * Aggiornamento anno footer
+  * Scroll to top
+  * Fade-out hero text on scroll
+  * Service Worker registration
+
+PAGINE MENU (food.html, cocktails.html, winebeer.html, ecc.)
+------------------------------------------------------------
+- Header con logo piccolo e titolo
+- Bottone "Home" fisso in alto a destra
+- Intro testo
+- Sezioni menu (.menu-section) con:
+  * Titolo sezione (.menu-section-title)
+  * Lista prodotti (.menu-list)
+  * Item prodotto (.menu-item) con:
+    - Nome e prezzo (.menu-item-header)
+    - Descrizione (.menu-item-desc) [opzionale]
+    - Meta pillole (.menu-pill) [opzionale]
+- Footer con note e link autore/policy
+- Bottom bar fissa (stessa di home.html)
+- Bottone scroll-to-top
+- Service Worker registration script
+
+STRUTTURA CSS (style.css)
+-------------------------
+
+SEZIONI PRINCIPALI:
+1. RESET & BASE
+   - Box-sizing, margin, padding reset
+   - Scrollbar nascosta
+   - Font family: Montserrat
+   - Background nero (#000000)
+   - Touch action optimization
+
+2. PALETTE COLORI
+   - Giallo principale: #FFC928
+   - Giallo scuro: #E2AD1F
+   - Giallo chiaro: #FFE27A
+   - Nero profondo: #111111
+
+3. SHELL DESKTOP (INDEX)
+   - .desktop-wrapper: centratura verticale/orizzontale
+   - .device-frame: frame mobile (360x780px, border-radius 28px)
+   - .device-iframe: iframe full size
+
+4. HOME PAGE (home.html)
+   - .page: container principale con gradient radiale
+   - .hero: header con logo e testo
+   - .cards: sezione cards navigazione
+   - .card: card cliccabile con hover effects
+   - .contact-block: blocco contatti/orari
+   - .site-footer: footer pagina
+   - .bottom-bar: barra fissa in basso
+   - .scroll-top: bottone scroll to top
+
+5. PAGINE MENU INTERNE
+   - .menu-page: container pagina menu
+   - .menu-header: header con logo e titolo
+   - .menu-close: bottone home fisso
+   - .menu-section: sezione menu
+   - .menu-item: item singolo prodotto
+   - .menu-footer: footer pagina menu
+
+6. RESPONSIVE
+   - Media query per tablet (min-width: 768px)
+   - Safe area insets per iPhone con notch
+
+SERVICE WORKER (service-worker.js)
+----------------------------------
+- Strategia: Network First
+- Cache name: hugohub-v4 (incrementare versione per aggiornamenti)
+- Precaching file principali all'installazione
+- Cache runtime per file caricati dinamicamente
+- Gestione aggiornamenti automatici
+- Supporto offline
+
+MANIFEST.JSON (PWA)
+-------------------
+- name: "HUGÒ · Find your happiness"
+- short_name: "HUGÒ"
+- display: "standalone"
+- background_color: "#111111"
+- theme_color: "#FFC928"
+- orientation: "portrait"
+- icons: logo.png (512x512), logomini.png (192x192)
+
+ROBOTS.TXT
+----------
+- Allow: /
+- Disallow: /google6aa057142d6d44a6.html
+- Sitemap: https://martasant.github.io/hugohub/sitemap.xml
+
+SITEMAP.XML
+-----------
+- Include tutte le pagine principali
+- Priorità: 1.0 (home), 0.8 (menu), 0.5 (policy), 0.3 (autore)
+- Changefreq: weekly (home), monthly (menu), yearly (autore)
+
+FUNZIONALITÀ JAVASCRIPT
+-----------------------
+1. Service Worker Registration
+   - Registrazione automatica
+   - Controllo aggiornamenti ogni 60 secondi
+   - Reload automatico su aggiornamento
+
+2. Scroll to Top
+   - Bottone appare dopo 200px di scroll
+   - Smooth scroll al click
+
+3. Hero Text Fade-out
+   - Fade-out del testo hero dopo 50px di scroll
+
+4. Footer Year
+   - Aggiornamento automatico anno copyright
+
+CARATTERISTICHE DESIGN
+----------------------
+- Design mobile-first (max-width: 480px)
+- Gradient radiale giallo/nero
+- Cards con hover effects e animazioni
+- Bottom bar fissa per CTA (WhatsApp, Instagram, Chiamata)
+- Safe area insets per dispositivi con notch
+- Touch target minimo 44x44px
+- Animazioni smooth e transizioni
+- Dark theme (sfondo nero, testo bianco, accenti gialli)
+
+LINK ESTERNI
+------------
+- Google Fonts: https://fonts.googleapis.com
+- Font Awesome: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css
+- WhatsApp: https://wa.me/393516320095
+- Instagram: https://www.instagram.com/hugo_hubriacheria/
+- Google Maps: link dinamico con indirizzo
+
+INFORMAZIONI BUSINESS
+---------------------
+- Nome: HUGÒ · Find your happiness
+- Indirizzo: Via Nazionale delle Puglie, 2, 80038, Pomigliano d'Arco NA
+- Telefono: +393516320095
+- P.IVA: IT09578771215
+- Orari:
+  * Martedì: CHIUSI
+  * Lunedì-Giovedì: 19:30 - 01:00
+  * Venerdì-Domenica: 19:30 - 02:00
+
+NOTE PER REPLICAZIONE
+---------------------
+1. Tutti i file HTML seguono lo stesso pattern di meta tags
+2. Le pagine menu usano classi CSS standardizzate
+3. Il service worker va aggiornato incrementando la versione in CACHE_NAME
+4. Le immagini devono essere ottimizzate per web
+5. Il design è ottimizzato per mobile, con fallback desktop tramite iframe
+6. Tutti i link interni sono relativi (es: "home.html", non "/home.html")
+7. Il canonical URL usa il dominio: https://martasant.github.io/hugohub/
+8. Le pagine menu hanno struttura identica, cambiano solo contenuti
+9. La bottom bar è presente in tutte le pagine principali
+10. Il bottone scroll-to-top è presente nelle pagine con scroll
+
+================================================================================
+FINE DOCUMENTAZIONE STRUTTURA
+================================================================================
+
